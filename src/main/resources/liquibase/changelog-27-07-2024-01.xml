@@ -1,0 +1,21 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
+
+    <changeSet author="wagner.wutzke" id="1700574778696-1" dbms="postgresql">
+        <sql splitStatements="false">
+            <![CDATA[
+            CREATE OR REPLACE FUNCTION bounded_pseudo_encrypt(VALUE bigint, MAX bigint) returns bigint AS $$
+            BEGIN
+                LOOP
+                    VALUE := pseudo_encrypt(VALUE);
+                    EXIT WHEN VALUE <= MAX;
+                END LOOP;
+                RETURN VALUE;
+            END
+            $$ LANGUAGE plpgsql strict immutable;
+            ]]>
+        </sql>
+    </changeSet>

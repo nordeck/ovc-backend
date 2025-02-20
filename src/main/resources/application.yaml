@@ -1,0 +1,159 @@
+spring:
+  application:
+    name: '@project.artifactId@'
+    version: '@project.version@'
+  datasource:
+    url: 'jdbc:postgresql://localhost:5432/ovc-backend'
+    username: << DB USERNAME >>
+    password: << DB PASSWORD >>
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        temp:
+          use_jdbc_metadata_defaults: false
+    hibernate:
+      ddl-auto: none
+      create_empty_composites:
+        enabled: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: true
+    show-sql: false
+  sql:
+    init:
+      mode: always
+      continue-on-error: true
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
+  liquibase:
+    change-log: 'classpath:liquibase/changelog-master.xml'
+
+  # resource server with oAuth 2.0 configurations
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://<< KEYCLOAK SERVER URL >>/realms/<< REALM NAME >>
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "scheduledtasks,health,configprops,env,metrics,prometheus,info"
+
+
+logging:
+  level:
+    net:
+      nordeck:
+        ovc:
+          backend: INFO
+
+
+# web security (api rest endpoints) configurations
+web:
+  security:
+    enabled: true
+    permit-all: >
+      /api/v1.0/meetings/*/basic,
+      /api/v1.0/meetings/*/next-of-series,
+      /api/v1.0/meetings/*/last-visit-date,
+      /api/v1.0/meetings/*/jitsi-link,
+      /api/v1.0/conference-mapper/**,
+      /swagger-ui/**,
+      /api-docs/**,
+      /actuator/**,
+      /favicon.ico,
+      /error,
+      /sw.js
+
+  encryption:
+    enabled: false
+    salt: '_VK_BUND_'
+    secret: 'eL0d8I579qrh'
+
+
+# jitsi token encryption configuration
+jitsi:
+  domain: https://jitsi.devops.dev.nordeck.io
+  jwt:
+    secret: << JITSI CLIENT SECRET >>
+    expiration-in-minutes: 60              # how much longer after meeting end time the token is valid
+    expiration-for-rooms-in-minutes: 180   # same as above, but for rooms and instant meetings
+    not-before-in-minutes: 30              # how many minutes earlier the meeting can be opened
+
+
+
+# scheduled jobs configuration
+jobs:
+  static-room-delete-unused:
+    enabled: false                  # enable / disable the job
+    cron: '40 */5 * * * *'          # job scheduling cron expression
+    daysLimit: 5                    # amount of days until the room is deleted - based on the last_visit_date field
+    daysBefore: 2                   # amount of days before room is deleted - based on the last_visit_date field
+    chunkSize: 200                  # amount of records to be handled per batch
+
+  static-room-password-change:
+    enabled: false                  # enable / disable the job
+    cron: '0 0 2 * * *'             # job scheduling cron expression
+    passwordLength: 8               # length of generated password
+    daysLimit: 5                    # amount of days until the room password is changed - based on the last_password_change field
+    daysBefore: 2                   # amount of days before room password gets changed - based on the last_password_change field
+    chunkSize: 200                  # amount of records to be handled per batch
+
+  static-room-default-user:
+    enabled: false                  # enable / disable the job
+    cron: '0 15 2 * * *'            # job scheduling cron expression
+    chunkSize: 200                  # amount of records to be handled per batch
+    email: default-user@gmail.com   # email address of default user to be found in Keycloak
+
+  meetings-delete-old:              # deletes meeting records where end_date < today - age-in-days
+    enabled: false                  # enable / disable the job
+    cron: '0 30 1 * * *'            # job scheduling cron expression
+    age-in-days: 60                 # max amount of days a meeting can live after ending (end_time)
+    chunkSize: 200                  # amount of records to be handled per batch
+
+  notifications-delete-old:         # deletes notification records where created_at < today - age-in-days
+    enabled: false                  # enable / disable the job
+    cron: '0 45 1 * * *'            # job scheduling cron expression
+    age-in-days: 30                 # max amount of days a notification can exist after being created
+    chunkSize: 200                  # amount of records to be handled per batch
+
+
+
+# swagger configurations
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    try-it-out-enabled: false
+    supported-submit-methods:
+
+
+portal:
+  domain: << PORTAL URL >>
+  meeting-join-path: /meetings/meeting/join/
+
+keycloak:
+  server-url: << KEYCLOAK SERVER URL >>
+  realm: << your realm name >>
+  client-id:
+  client-secret:
+
+sip:
+  phone:
+    number: +49 40 3003 5005
+
+  jibri:
+    link: 112233@sip.nordeck.io
+
+api:
+  default-page-size: 20
+  default-weeks-before: 4
+  default-weeks-after: 4

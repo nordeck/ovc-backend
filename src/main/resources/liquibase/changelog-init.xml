@@ -1,0 +1,56 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
+
+    <property name="NOW" value="now()" dbms="mysql,h2"/>
+    <property name="NOW" value="CURRENT_TIMESTAMP" dbms="postgresql"/>
+    <property name="NOW" value="sysdate" dbms="oracle"/>
+
+    <changeSet author="wagner.wutzke" id="1700574778669-1">
+        <createTable tableName="meeting">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="meeting_pkey"/>
+            </column>
+            <column name="name" type="CHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="info" type="VARCHAR(2000)"/>
+            <column name="start_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="end_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="owner_id" type="VARCHAR(127)"/>
+            <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE" defaultValueComputed="${NOW}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITHOUT TIME ZONE" defaultValueComputed="${NOW}">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueBoolean="false" name="password_restricted" type="BOOLEAN"/>
+            <column name="password" type="VARCHAR(127)"/>
+            <column name="lobby_enabled" type="BOOLEAN" defaultValueBoolean="false"/>
+            <column name="periodicity" type="VARCHAR(127)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="wagner.wutzke" id="1700574778669-2">
+        <createTable tableName="meeting_participant">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="meeting_participant_pkey"/>
+            </column>
+            <column name="user_id" type="VARCHAR(255)"/>
+            <column name="meeting_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="VARCHAR(127)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE" defaultValueComputed="${NOW}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITHOUT TIME ZONE" defaultValueComputed="${NOW}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

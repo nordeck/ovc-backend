@@ -1,0 +1,40 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
+
+    <changeSet author="wagner.wutzke" id="1700574778699-1">
+        <modifyDataType schemaName="public" tableName="meeting" columnName="name" newDataType="varchar(255)" />
+    </changeSet>
+
+    <changeSet author="wagner.wutzke" id="1700574778699-2">
+        <dropColumn schemaName="public" tableName="meeting" columnName="timezone" />
+    </changeSet>
+
+    <changeSet author="wagner.wutzke" id="1700574778699-3">
+        <dropColumn schemaName="public" tableName="meeting" columnName="recurrent_parent" />
+    </changeSet>
+
+    <changeSet author="wagner.wutzke" id="1700574778699-4">
+        <modifyDataType schemaName="public" tableName="meeting" columnName="room_deletion_due_date" newDataType="java.sql.Types.TIMESTAMP_WITH_TIMEZONE"/>
+    </changeSet>
+
+    <changeSet author="wagner.wutzke" id="1700574778699-5">
+        <modifyDataType schemaName="public" tableName="meeting" columnName="password_change_due_date" newDataType="java.sql.Types.TIMESTAMP_WITH_TIMEZONE"/>
+    </changeSet>
+
+    <changeSet author="wagner.wutzke" id="1700574778699-6">
+        <modifyDataType schemaName="public" tableName="notification" columnName="room_deletion_due_date" newDataType="java.sql.Types.TIMESTAMP_WITH_TIMEZONE"/>
+    </changeSet>
+
+    <changeSet author="wagner.wutzke" id="1700574778699-7">
+        <modifyDataType schemaName="public" tableName="notification" columnName="password_change_due_date" newDataType="java.sql.Types.TIMESTAMP_WITH_TIMEZONE"/>
+    </changeSet>
+
+    <changeSet author="wagner.wutzke" id="1700574778699-8">
+        <modifyDataType schemaName="public" tableName="meeting" columnName="last_visit_date" newDataType="java.sql.Types.TIMESTAMP_WITH_TIMEZONE"/>
+    </changeSet>
+
+</databaseChangeLog>

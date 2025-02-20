@@ -1,0 +1,11 @@
+/target/
+/.jpb/
+/.idea/
+/.jetclient/
+/htmlReport/
+
+# misc
+.DS_Store
+
+ovc-backend.iml
+

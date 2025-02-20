@@ -1,0 +1,13 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
+
+    <changeSet author="wagner.wutzke" id="1700574778693-1">
+        <addColumn schemaName= "public" tableName="meeting">
+            <column name="sip_jibri_link" type="VARCHAR(255)" />
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,18 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
+
+    <changeSet author="wagner.wutzke" id="1700574778697-1" dbms="postgresql">
+        <sql splitStatements="false">
+            <![CDATA[
+            DROP SEQUENCE IF EXISTS conference_mapper_id_seq;
+            DROP FUNCTION IF EXISTS pseudo_encrypt(value bigint);
+            DROP FUNCTION IF EXISTS bounded_pseudo_encrypt(value bigint, max bigint);
+            ]]>
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

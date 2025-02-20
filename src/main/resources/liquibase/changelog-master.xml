@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
+    <include file="/liquibase/changelog-init.xml" ignore="false" />
+    <include file="/liquibase/changelog-11-12-2023-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-19-12-2023-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-18-01-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-19-01-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-20-01-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-02-02-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-19-02-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-26-02-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-11-03-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-28-03-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-03-04-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-26-04-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-29-04-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-15-05-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-20-05-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-17-06-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-18-06-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-20-06-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-25-06-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-26-06-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-11-07-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-16-07-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-19-07-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-23-07-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-01-08-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-21-10-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-23-10-2024-01.xml" ignore="false" />
+    <include file="/liquibase/changelog-05-12-2024-01.xml" ignore="false" />
+</databaseChangeLog>

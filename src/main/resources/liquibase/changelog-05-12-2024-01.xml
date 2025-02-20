@@ -1,0 +1,29 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
+
+    <changeSet author="wagner.wutzke" id="1700574778700-1" dbms="postgresql">
+        <addForeignKeyConstraint constraintName="fk_meeting_participant_on_meeting"
+                baseTableName="meeting_participant" baseColumnNames="meeting_id"
+                referencedTableName="meeting" referencedColumnNames="id"
+                onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="wagner.wutzke" id="1700574778700-2" dbms="postgresql">
+        <addForeignKeyConstraint constraintName="fk_child_meeting_on_parent_meeting"
+                                 baseTableName="meeting" baseColumnNames="parent_id"
+                                 referencedTableName="meeting" referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="wagner.wutzke" id="1700574778700-3" dbms="postgresql">
+        <addForeignKeyConstraint constraintName="fk_notification_on_meeting"
+                                 baseTableName="notification" baseColumnNames="meeting_id"
+                                 referencedTableName="meeting" referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+</databaseChangeLog>

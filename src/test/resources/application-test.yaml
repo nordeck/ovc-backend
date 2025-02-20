@@ -1,0 +1,101 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:ovc-backend_DB;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        temp:
+          use_jdbc_metadata_defaults: false
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: false
+  sql:
+    init:
+      mode: always
+      continue-on-error: true
+  liquibase:
+    enabled: true
+    url: jdbc:h2:mem:ovc-backend_DB;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    user: sa
+    password:
+    change-log: 'classpath:liquibase/changelog-master.xml'
+
+
+# web security (api rest endpoints) configurations
+web:
+  security:
+    enabled: false
+    permit-all: >
+      /api/health/isAlive
+
+  encryption:
+    salt: ''
+    secret: ''
+    enabled: false
+
+
+# jitsi token encryption configuration
+jitsi:
+  domain:
+  jwt:
+    secret:
+    expiration-in-minutes: 60
+    expiration-for-rooms-in-minutes: 180
+    not-before-in-minutes: 30
+
+
+# scheduled jobs configuration
+jobs:
+  static-room-delete-unused:
+    enabled: true
+    cron: '0 45 */1 * * *'
+    daysLimit: 5
+    daysBefore: 2
+    chunkSize: 200
+
+  static-room-password-change:
+    enabled: true
+    cron: '0 30 */1 * * *'
+    passwordLength: 8
+    daysLimit: 5
+    daysBefore: 2
+    chunkSize: 200
+
+  static-room-default-user:
+    enabled: true
+    cron: '0 15 */1 * * *'
+    chunkSize: 200
+    email: vk-bund-default-user@gmail.com
+
+  meetings-delete-old: # deletes meeting records where end_date < today - age-in-days
+    enabled: true
+    cron: '0 0 */1 * * *'
+    age-in-days: 60
+    chunkSize: 200
+
+  notifications-delete-old: # deletes notifications records where created_at < today - age-in-days
+    enabled: true
+    cron: '0 0 */1 * * *'
+    age-in-days: 30
+    chunkSize: 200
+
+portal:
+  domain: https://localhost:3000
+  meeting-join-path: /meetings/meeting/join/
+
+sip:
+  phone:
+    number: +49 40 3003 5005
+
+  jibri:
+    link: 112233@nordeck.io
+
+api:
+  default-page-size: 20
+  default-weeks-before: 4
+  default-weeks-after: 4
