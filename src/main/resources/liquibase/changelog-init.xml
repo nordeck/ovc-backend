@@ -1,40 +1,71 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
-
-    <property name="NOW" value="now()" dbms="mysql,h2"/>
-    <property name="NOW" value="CURRENT_TIMESTAMP" dbms="postgresql"/>
-    <property name="NOW" value="sysdate" dbms="oracle"/>
-
-    <changeSet author="wagner.wutzke" id="1700574778669-1">
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="wagner.wutzke" id="1740060932516-1">
         <createTable tableName="meeting">
             <column name="id" type="UUID">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="meeting_pkey"/>
             </column>
-            <column name="name" type="CHAR(255)">
+            <column name="name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="info" type="VARCHAR(2000)"/>
-            <column name="start_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
-            <column name="end_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="start_time" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="end_time" type="TIMESTAMP WITH TIME ZONE"/>
             <column name="owner_id" type="VARCHAR(127)"/>
-            <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE" defaultValueComputed="${NOW}">
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_at" type="TIMESTAMP WITHOUT TIME ZONE" defaultValueComputed="${NOW}">
+            <column defaultValueComputed="now()" name="updated_at" type="TIMESTAMP WITH TIME ZONE">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueBoolean="false" name="password_restricted" type="BOOLEAN"/>
             <column name="password" type="VARCHAR(127)"/>
-            <column name="lobby_enabled" type="BOOLEAN" defaultValueBoolean="false"/>
-            <column name="periodicity" type="VARCHAR(127)"/>
+            <column defaultValueBoolean="false" name="lobby_enabled" type="BOOLEAN"/>
+            <column name="frequency" type="VARCHAR(127)"/>
+            <column defaultValueBoolean="false" name="custom_days_mo" type="BOOLEAN"/>
+            <column defaultValueBoolean="false" name="custom_days_tu" type="BOOLEAN"/>
+            <column defaultValueBoolean="false" name="custom_days_we" type="BOOLEAN"/>
+            <column defaultValueBoolean="false" name="custom_days_th" type="BOOLEAN"/>
+            <column defaultValueBoolean="false" name="custom_days_fr" type="BOOLEAN"/>
+            <column defaultValueBoolean="false" name="custom_days_sa" type="BOOLEAN"/>
+            <column defaultValueBoolean="false" name="custom_days_su" type="BOOLEAN"/>
+            <column defaultValueBoolean="false" name="static_room" type="BOOLEAN"/>
+            <column name="last_visit_date" type="TIMESTAMP WITH TIME ZONE"/>
+            <column defaultValueBoolean="false" name="delete_candidate" type="BOOLEAN"/>
+            <column name="last_password_change" type="date"/>
+            <column defaultValueBoolean="false" name="password_change_candidate" type="BOOLEAN"/>
+            <column name="parent_id" type="UUID"/>
+            <column defaultValueBoolean="false" name="instant_meeting" type="BOOLEAN"/>
+            <column defaultValueBoolean="false" name="has_organizer" type="BOOLEAN"/>
+            <column name="password_change_due_date" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="room_deletion_due_date" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="conference_pin" type="VARCHAR(16)"/>
+            <column name="phone_number" type="VARCHAR(20)"/>
+            <column defaultValueBoolean="false" name="excluded" type="BOOLEAN"/>
+            <column name="sip_jibri_link" type="VARCHAR(255)"/>
+            <column name="series_end_time" type="TIMESTAMP WITH TIME ZONE"/>
         </createTable>
     </changeSet>
-
-    <changeSet author="wagner.wutzke" id="1700574778669-2">
+    <changeSet author="wagner.wutzke" id="1740060932516-2">
+        <createTable tableName="notification">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="notification_pkey"/>
+            </column>
+            <column name="message" type="VARCHAR(1024)"/>
+            <column name="user_id" type="VARCHAR(255)"/>
+            <column name="meeting_id" type="UUID"/>
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="viewed_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column defaultValueBoolean="false" name="viewed" type="BOOLEAN"/>
+            <column name="type" type="VARCHAR(64)"/>
+            <column name="room_name" type="VARCHAR(256)"/>
+            <column name="password_change_due_date" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="room_deletion_due_date" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-3">
         <createTable tableName="meeting_participant">
             <column name="id" type="UUID">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="meeting_participant_pkey"/>
@@ -45,12 +76,195 @@
             </column>
             <column name="role" type="VARCHAR(127)"/>
             <column name="email" type="VARCHAR(255)"/>
-            <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE" defaultValueComputed="${NOW}">
+            <column defaultValueComputed="now()" name="created_at" type="TIMESTAMP WITH TIME ZONE">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_at" type="TIMESTAMP WITHOUT TIME ZONE" defaultValueComputed="${NOW}">
+            <column defaultValueComputed="now()" name="updated_at" type="TIMESTAMP WITH TIME ZONE">
                 <constraints nullable="false"/>
             </column>
         </createTable>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-4">
+        <createTable tableName="batch_job_instance">
+            <column name="job_instance_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="batch_job_instance_pkey"/>
+            </column>
+            <column name="version" type="BIGINT"/>
+            <column name="job_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="job_key" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-5">
+        <createIndex indexName="meeting_end_time_idx" tableName="meeting">
+            <column name="end_time"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-6">
+        <createIndex indexName="meeting_created_at_idx" tableName="meeting">
+            <column defaultValueComputed="now()" name="created_at"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-7">
+        <createIndex indexName="notification_user_id_idx" tableName="notification">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-8">
+        <createIndex indexName="meeting_participant_meeting_id_idx" tableName="meeting_participant">
+            <column name="meeting_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-9">
+        <createIndex indexName="meeting_participant_email_upper_idx" tableName="meeting_participant">
+            <column computed="true" name="upper((email)::text)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-10">
+        <addUniqueConstraint columnNames="job_name, job_key" constraintName="job_inst_un" tableName="batch_job_instance"/>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-11">
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1" maxValue="9223372036854775807" minValue="1" sequenceName="batch_job_execution_seq" startValue="1"/>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-12">
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1" maxValue="9223372036854775807" minValue="1" sequenceName="batch_job_seq" startValue="1"/>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-13">
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1" maxValue="9223372036854775807" minValue="1" sequenceName="batch_step_execution_seq" startValue="1"/>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-14">
+        <createTable tableName="batch_job_execution">
+            <column name="job_execution_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="batch_job_execution_pkey"/>
+            </column>
+            <column name="version" type="BIGINT"/>
+            <column name="job_instance_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="create_time" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="end_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="status" type="VARCHAR(10)"/>
+            <column name="exit_code" type="VARCHAR(2500)"/>
+            <column name="exit_message" type="VARCHAR(2500)"/>
+            <column name="last_updated" type="TIMESTAMP WITHOUT TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-15">
+        <createTable tableName="batch_job_execution_context">
+            <column name="job_execution_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="batch_job_execution_context_pkey"/>
+            </column>
+            <column name="short_context" type="VARCHAR(2500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="serialized_context" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-16">
+        <createTable tableName="batch_job_execution_params">
+            <column name="job_execution_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parameter_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parameter_type" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parameter_value" type="VARCHAR(2500)"/>
+            <column name="identifying" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-17">
+        <createTable tableName="batch_step_execution">
+            <column name="step_execution_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="batch_step_execution_pkey"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="step_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="job_execution_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="create_time" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="end_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="status" type="VARCHAR(10)"/>
+            <column name="commit_count" type="BIGINT"/>
+            <column name="read_count" type="BIGINT"/>
+            <column name="filter_count" type="BIGINT"/>
+            <column name="write_count" type="BIGINT"/>
+            <column name="read_skip_count" type="BIGINT"/>
+            <column name="write_skip_count" type="BIGINT"/>
+            <column name="process_skip_count" type="BIGINT"/>
+            <column name="rollback_count" type="BIGINT"/>
+            <column name="exit_code" type="VARCHAR(2500)"/>
+            <column name="exit_message" type="VARCHAR(2500)"/>
+            <column name="last_updated" type="TIMESTAMP WITHOUT TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-18">
+        <createTable tableName="batch_step_execution_context">
+            <column name="step_execution_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="batch_step_execution_context_pkey"/>
+            </column>
+            <column name="short_context" type="VARCHAR(2500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="serialized_context" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-19">
+        <createTable tableName="shedlock">
+            <column name="name" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="shedlock_pkey"/>
+            </column>
+            <column name="lock_until" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locked_at" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locked_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-20">
+        <addForeignKeyConstraint baseColumnNames="parent_id" baseTableName="meeting" constraintName="fk_child_meeting_on_parent_meeting" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="meeting" validate="true"/>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-21">
+        <addForeignKeyConstraint baseColumnNames="meeting_id" baseTableName="meeting_participant" constraintName="fk_meeting_participant_on_meeting" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="meeting" validate="true"/>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-22">
+        <addForeignKeyConstraint baseColumnNames="meeting_id" baseTableName="notification" constraintName="fk_notification_on_meeting" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="meeting" validate="true"/>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-23">
+        <addForeignKeyConstraint baseColumnNames="job_execution_id" baseTableName="batch_job_execution_context" constraintName="job_exec_ctx_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="job_execution_id" referencedTableName="batch_job_execution" validate="true"/>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-24">
+        <addForeignKeyConstraint baseColumnNames="job_execution_id" baseTableName="batch_job_execution_params" constraintName="job_exec_params_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="job_execution_id" referencedTableName="batch_job_execution" validate="true"/>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-25">
+        <addForeignKeyConstraint baseColumnNames="job_execution_id" baseTableName="batch_step_execution" constraintName="job_exec_step_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="job_execution_id" referencedTableName="batch_job_execution" validate="true"/>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-26">
+        <addForeignKeyConstraint baseColumnNames="job_instance_id" baseTableName="batch_job_execution" constraintName="job_inst_exec_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="job_instance_id" referencedTableName="batch_job_instance" validate="true"/>
+    </changeSet>
+    <changeSet author="wagner.wutzke" id="1740060932516-27">
+        <addForeignKeyConstraint baseColumnNames="step_execution_id" baseTableName="batch_step_execution_context" constraintName="step_exec_ctx_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="step_execution_id" referencedTableName="batch_step_execution" validate="true"/>
     </changeSet>
 </databaseChangeLog>

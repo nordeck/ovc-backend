@@ -4,8 +4,8 @@ spring:
     version: '@project.version@'
   datasource:
     url: 'jdbc:postgresql://localhost:5432/ovc-backend'
-    username: << DB USERNAME >>
-    password: << DB PASSWORD >>
+    username: ovc-backend-user
+    password: Nordeck2025!
   jpa:
     properties:
       hibernate:
