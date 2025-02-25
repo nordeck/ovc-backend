@@ -122,11 +122,11 @@
             <column name="meeting_id"/>
         </createIndex>
     </changeSet>
-<!--    <changeSet author="wagner.wutzke" id="1740060932516-9">-->
-<!--        <createIndex indexName="meeting_participant_email_upper_idx" tableName="meeting_participant">-->
-<!--            <column computed="true" name="upper((email)::text)"/>-->
-<!--        </createIndex>-->
-<!--    </changeSet>-->
+    <changeSet author="wagner.wutzke" id="1740060932516-9"  dbms="postgresql">
+        <createIndex indexName="meeting_participant_email_upper_idx" tableName="meeting_participant">
+            <column computed="true" name="upper((email)::text)"/>
+        </createIndex>
+    </changeSet>
     <changeSet author="wagner.wutzke" id="1740060932516-10">
         <addUniqueConstraint columnNames="job_name, job_key" constraintName="job_inst_un" tableName="batch_job_instance"/>
     </changeSet>
