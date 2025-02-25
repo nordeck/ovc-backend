@@ -81,3 +81,4 @@ jobs:
           platforms: linux/amd64
           build-args: |
             VERSION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
+
