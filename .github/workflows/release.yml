@@ -55,7 +55,7 @@ jobs:
           images: ${{ env.DOCKER_IMAGE }}
           labels: |
             org.opencontainers.image.title=ovc-backend
-            org.opencontainers.image.description= OVC Backend.
+            org.opencontainers.image.description=OVC Backend.
             org.opencontainers.image.vendor=Nordeck IT + Consulting GmbH
           tags: |
             type=semver,pattern={{version}},value=${{ steps.release.outputs.RELEASE_VERSION }}
