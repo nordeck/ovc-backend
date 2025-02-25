@@ -2,6 +2,8 @@ package net.nordeck.ovc.backend.jobs;
 
 import net.nordeck.ovc.backend.TestUtils;
 import net.nordeck.ovc.backend.entity.MeetingEntity;
+import net.nordeck.ovc.backend.entity.MeetingParticipantEntity;
+import net.nordeck.ovc.backend.repository.MeetingParticipantRepository;
 import net.nordeck.ovc.backend.repository.MeetingRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +27,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -46,6 +49,9 @@ public class StaticRoomsDeleteUnusedJobTest {
 
     @Autowired
     private MeetingRepository meetingRepository;
+
+    @Autowired
+    private MeetingParticipantRepository meetingParticipantRepository;
 
     @Mock
     private JobRepository jobRepository;
@@ -84,19 +90,39 @@ public class StaticRoomsDeleteUnusedJobTest {
         MeetingEntity room2 = TestUtils.getStaticRoom();
         MeetingEntity room3 = TestUtils.getStaticRoom();
 
-        room1.setLastVisitDate(ZonedDateTime.now().minusDays(6)); // should be deleted by step1
-        room1.setRoomDeletionDueDate(ZonedDateTime.now().minusDays(10));
-        room1.setDeleteCandidate(true);
+        List<List<MeetingParticipantEntity>> participants = List.of(
+                room1.getParticipants(),
+                room2.getParticipants(),
+                room3.getParticipants()
+        );
 
-        room2.setLastVisitDate(ZonedDateTime.now().minusDays(1)); // should be reset by step2
-        room2.setRoomDeletionDueDate(ZonedDateTime.now().minusDays(10));
-        room2.setDeleteCandidate(true);
+        room1.setParticipants(null);
+        room2.setParticipants(null);
+        room3.setParticipants(null);
 
-        room3.setLastVisitDate(ZonedDateTime.now().minusDays(3)); // should be marked as candidate by step3
-        room3.setRoomDeletionDueDate(ZonedDateTime.now().minusDays(10));
-        room3.setDeleteCandidate(false);
+        List<MeetingEntity> meetingEntities = meetingRepository.saveAll(List.of(room1, room2, room3));
 
-        meetingRepository.saveAll(List.of(room1, room2, room3));
+        meetingEntities.get(0).setLastVisitDate(ZonedDateTime.now().minusDays(6)); // should be deleted by step1
+        meetingEntities.get(0).setRoomDeletionDueDate(ZonedDateTime.now().minusDays(10));
+        meetingEntities.get(0).setDeleteCandidate(true);
+
+        meetingEntities.get(1).setLastVisitDate(ZonedDateTime.now().minusDays(1)); // should be reset by step2
+        meetingEntities.get(1).setRoomDeletionDueDate(ZonedDateTime.now().minusDays(10));
+        meetingEntities.get(1).setDeleteCandidate(true);
+
+        meetingEntities.get(2).setLastVisitDate(ZonedDateTime.now().minusDays(3)); // should be marked as candidate by step3
+        meetingEntities.get(2).setRoomDeletionDueDate(ZonedDateTime.now().minusDays(10));
+        meetingEntities.get(2).setDeleteCandidate(false);
+
+
+        // set  meeting id for every participant
+        for (int i=0; i<meetingEntities.size(); i++) {
+            int finalI = i;
+            participants.get(i).forEach(o -> o.setMeetingId(meetingEntities.get(finalI).getId()));
+            meetingEntities.get(i).setParticipants(participants.get(i));
+        }
+
+        meetingRepository.saveAll(meetingEntities);
 
         mockedJob.meetingRepository = meetingRepository;
         mockedJob.chunkSize = chunkSize;
@@ -106,6 +132,7 @@ public class StaticRoomsDeleteUnusedJobTest {
     @AfterEach
     void cleanData() {
         meetingRepository.deleteAll();
+        meetingParticipantRepository.deleteAll();
         jobRepositoryTestUtils.removeJobExecutions();
     }
 

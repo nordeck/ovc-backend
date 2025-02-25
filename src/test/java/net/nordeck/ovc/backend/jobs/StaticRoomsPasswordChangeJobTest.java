@@ -2,6 +2,7 @@ package net.nordeck.ovc.backend.jobs;
 
 import net.nordeck.ovc.backend.TestUtils;
 import net.nordeck.ovc.backend.entity.MeetingEntity;
+import net.nordeck.ovc.backend.entity.MeetingParticipantEntity;
 import net.nordeck.ovc.backend.repository.MeetingRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -81,19 +82,41 @@ public class StaticRoomsPasswordChangeJobTest {
         MeetingEntity room3 = TestUtils.getStaticRoom();
         MeetingEntity room2 = TestUtils.getStaticRoom();
 
-        room1.setLastPasswordChange(ZonedDateTime.now().plusDays(-6)); // should be changed by step1
-        room1.setPasswordChangeDueDate(ZonedDateTime.now().plusDays(-10));
-        room1.setPasswordChangeCandidate(true);
 
-        room2.setLastPasswordChange(ZonedDateTime.now().plusDays(-1)); // should be reset by step2
-        room2.setPasswordChangeDueDate(ZonedDateTime.now().plusDays(-10));
-        room2.setPasswordChangeCandidate(true);
+        List<List<MeetingParticipantEntity>> participants = List.of(
+                room1.getParticipants(),
+                room2.getParticipants(),
+                room3.getParticipants()
+        );
 
-        room3.setLastPasswordChange(ZonedDateTime.now().plusDays(-4)); // should be marked as new candidate by step3
-        room3.setPasswordChangeDueDate(ZonedDateTime.now().plusDays(-10));
-        room3.setPasswordChangeCandidate(false);
+        // save rooms without participants
+        room1.setParticipants(null);
+        room2.setParticipants(null);
+        room3.setParticipants(null);
+        List<MeetingEntity> meetingEntities = meetingRepository.saveAll(List.of(room1, room2, room3));
 
-        meetingRepository.saveAll(List.of(room1, room2, room3));
+        // save modified rooms with participants
+        meetingEntities.get(0).setLastPasswordChange(ZonedDateTime.now().plusDays(-6)); // should be changed by step1
+        meetingEntities.get(0).setPasswordChangeDueDate(ZonedDateTime.now().plusDays(-10));
+        meetingEntities.get(0).setPasswordChangeCandidate(true);
+
+        meetingEntities.get(1).setLastPasswordChange(ZonedDateTime.now().plusDays(-1)); // should be reset by step2
+        meetingEntities.get(1).setPasswordChangeDueDate(ZonedDateTime.now().plusDays(-10));
+        meetingEntities.get(1).setPasswordChangeCandidate(true);
+
+        meetingEntities.get(2).setLastPasswordChange(ZonedDateTime.now().plusDays(-4)); // should be marked as new candidate by step3
+        meetingEntities.get(2).setPasswordChangeDueDate(ZonedDateTime.now().plusDays(-10));
+        meetingEntities.get(2).setPasswordChangeCandidate(false);
+
+        // set  meeting id for every participant
+        for (int i=0; i<meetingEntities.size(); i++) {
+            int finalI = i;
+            participants.get(i).forEach(o -> o.setMeetingId(meetingEntities.get(finalI).getId()));
+            meetingEntities.get(i).setParticipants(participants.get(i));
+        }
+
+        meetingRepository.saveAll(meetingEntities);
+
         mockedJob.meetingRepository = meetingRepository;
         mockedJob.chunkSize = chunkSize;
     }
