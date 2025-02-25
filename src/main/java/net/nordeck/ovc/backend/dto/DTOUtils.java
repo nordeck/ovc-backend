@@ -171,6 +171,8 @@ public class DTOUtils
         dto.setLobbyEnabled(entity.isLobbyEnabled());
         dto.setPassword(entity.getPassword());
         dto.setType(getTypeFromEntity(entity));
+        dto.setStarted(entity.isStarted());
+        dto.setStartedAt(entity.getStartedAt());
     }
 
     protected static RecurrenceDTO buildRecurrenceFromEntity(MeetingEntity entity)
