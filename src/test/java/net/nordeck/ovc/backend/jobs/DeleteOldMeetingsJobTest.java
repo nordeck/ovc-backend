@@ -2,6 +2,7 @@ package net.nordeck.ovc.backend.jobs;
 
 import net.nordeck.ovc.backend.TestUtils;
 import net.nordeck.ovc.backend.entity.MeetingEntity;
+import net.nordeck.ovc.backend.entity.MeetingParticipantEntity;
 import net.nordeck.ovc.backend.repository.MeetingParticipantRepository;
 import net.nordeck.ovc.backend.repository.MeetingRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -27,6 +28,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -83,7 +85,27 @@ public class DeleteOldMeetingsJobTest {
         m2.setEndTime(ZonedDateTime.now().minusDays(65));
         m3.setEndTime(ZonedDateTime.now().minusDays(30));
 
-        meetingRepository.saveAll(List.of(m1, m2, m3));
+        List<List<MeetingParticipantEntity>> participants = List.of(
+                m1.getParticipants(),
+                m2.getParticipants(),
+                m3.getParticipants()
+        );
+
+        m1.setParticipants(null);
+        m2.setParticipants(null);
+        m3.setParticipants(null);
+
+        List<MeetingEntity> meetingEntities = meetingRepository
+                .saveAll(List.of(m1, m2, m3));
+
+        // set  meeting id for every participant
+        for (int i=0; i<meetingEntities.size(); i++) {
+            int finalI = i;
+            participants.get(i).forEach(o -> o.setMeetingId(meetingEntities.get(finalI).getId()));
+            meetingEntities.get(i).setParticipants(participants.get(i));
+        }
+
+        meetingRepository.saveAll(meetingEntities);
 
         mockedJob.meetingRepository = meetingRepository;
         mockedJob.chunkSize = chunkSize;

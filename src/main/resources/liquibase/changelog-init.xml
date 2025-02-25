@@ -1,10 +1,10 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <property name="NOW" value="now()" dbms="mysql,h2"/>
+    <property name="NOW" value="now() " dbms="mysql,h2"/>
     <property name="NOW" value="CURRENT_TIMESTAMP" dbms="postgresql"/>
     <property name="NOW" value="sysdate" dbms="oracle"/>
-    
-    <changeSet author="wagner.wutzke" id="1740060932516-1">
+
+    <changeSet author="wagner.wutzke" id="1740266386086-1">
         <createTable tableName="meeting">
             <column name="id" type="UUID">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="meeting_pkey"/>
@@ -50,7 +50,7 @@
             <column name="series_end_time" type="TIMESTAMP WITH TIME ZONE"/>
         </createTable>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-2">
+    <changeSet author="wagner.wutzke" id="1740266386086-2">
         <createTable tableName="notification">
             <column name="id" type="UUID">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="notification_pkey"/>
@@ -69,7 +69,7 @@
             <column name="room_deletion_due_date" type="TIMESTAMP WITH TIME ZONE"/>
         </createTable>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-3">
+    <changeSet author="wagner.wutzke" id="1740266386086-3">
         <createTable tableName="meeting_participant">
             <column name="id" type="UUID">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="meeting_participant_pkey"/>
@@ -88,7 +88,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-4">
+    <changeSet author="wagner.wutzke" id="1740266386086-4">
         <createTable tableName="batch_job_instance">
             <column name="job_instance_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="batch_job_instance_pkey"/>
@@ -102,44 +102,44 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-5">
+    <changeSet author="wagner.wutzke" id="1740266386086-5">
         <createIndex indexName="meeting_end_time_idx" tableName="meeting">
             <column name="end_time"/>
         </createIndex>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-6">
+    <changeSet author="wagner.wutzke" id="1740266386086-6">
         <createIndex indexName="meeting_created_at_idx" tableName="meeting">
-            <column name="created_at"/>
+            <column defaultValueComputed="${NOW}" name="created_at"/>
         </createIndex>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-7">
+    <changeSet author="wagner.wutzke" id="1740266386086-7">
         <createIndex indexName="notification_user_id_idx" tableName="notification">
             <column name="user_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-8">
+    <changeSet author="wagner.wutzke" id="1740266386086-8">
         <createIndex indexName="meeting_participant_meeting_id_idx" tableName="meeting_participant">
             <column name="meeting_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-9"  dbms="postgresql">
+    <changeSet author="wagner.wutzke" id="1740266386086-9" dbms="postgresql">
         <createIndex indexName="meeting_participant_email_upper_idx" tableName="meeting_participant">
             <column computed="true" name="upper((email)::text)"/>
         </createIndex>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-10">
+    <changeSet author="wagner.wutzke" id="1740266386086-10">
         <addUniqueConstraint columnNames="job_name, job_key" constraintName="job_inst_un" tableName="batch_job_instance"/>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-11">
+    <changeSet author="wagner.wutzke" id="1740266386086-11">
         <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1" maxValue="9223372036854775807" minValue="1" sequenceName="batch_job_execution_seq" startValue="1"/>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-12">
+    <changeSet author="wagner.wutzke" id="1740266386086-12">
         <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1" maxValue="9223372036854775807" minValue="1" sequenceName="batch_job_seq" startValue="1"/>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-13">
+    <changeSet author="wagner.wutzke" id="1740266386086-13">
         <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1" maxValue="9223372036854775807" minValue="1" sequenceName="batch_step_execution_seq" startValue="1"/>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-14">
+    <changeSet author="wagner.wutzke" id="1740266386086-14">
         <createTable tableName="batch_job_execution">
             <column name="job_execution_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="batch_job_execution_pkey"/>
@@ -159,7 +159,7 @@
             <column name="last_updated" type="TIMESTAMP WITHOUT TIME ZONE"/>
         </createTable>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-15">
+    <changeSet author="wagner.wutzke" id="1740266386086-15">
         <createTable tableName="batch_job_execution_context">
             <column name="job_execution_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="batch_job_execution_context_pkey"/>
@@ -170,7 +170,7 @@
             <column name="serialized_context" type="TEXT"/>
         </createTable>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-16">
+    <changeSet author="wagner.wutzke" id="1740266386086-16">
         <createTable tableName="batch_job_execution_params">
             <column name="job_execution_id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -187,7 +187,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-17">
+    <changeSet author="wagner.wutzke" id="1740266386086-17">
         <createTable tableName="batch_step_execution">
             <column name="step_execution_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="batch_step_execution_pkey"/>
@@ -220,7 +220,7 @@
             <column name="last_updated" type="TIMESTAMP WITHOUT TIME ZONE"/>
         </createTable>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-18">
+    <changeSet author="wagner.wutzke" id="1740266386086-18">
         <createTable tableName="batch_step_execution_context">
             <column name="step_execution_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="batch_step_execution_context_pkey"/>
@@ -231,7 +231,7 @@
             <column name="serialized_context" type="TEXT"/>
         </createTable>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-19">
+    <changeSet author="wagner.wutzke" id="1740266386086-19">
         <createTable tableName="shedlock">
             <column name="name" type="VARCHAR(64)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="shedlock_pkey"/>
@@ -247,28 +247,28 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-20">
+    <changeSet author="wagner.wutzke" id="1740266386086-20">
         <addForeignKeyConstraint baseColumnNames="parent_id" baseTableName="meeting" constraintName="fk_child_meeting_on_parent_meeting" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="meeting" validate="true"/>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-21"  dbms="postgresql">
+    <changeSet author="wagner.wutzke" id="1740266386086-21">
         <addForeignKeyConstraint baseColumnNames="meeting_id" baseTableName="meeting_participant" constraintName="fk_meeting_participant_on_meeting" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="meeting" validate="true"/>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-22">
+    <changeSet author="wagner.wutzke" id="1740266386086-22">
         <addForeignKeyConstraint baseColumnNames="meeting_id" baseTableName="notification" constraintName="fk_notification_on_meeting" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="meeting" validate="true"/>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-23">
+    <changeSet author="wagner.wutzke" id="1740266386086-23">
         <addForeignKeyConstraint baseColumnNames="job_execution_id" baseTableName="batch_job_execution_context" constraintName="job_exec_ctx_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="job_execution_id" referencedTableName="batch_job_execution" validate="true"/>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-24">
+    <changeSet author="wagner.wutzke" id="1740266386086-24">
         <addForeignKeyConstraint baseColumnNames="job_execution_id" baseTableName="batch_job_execution_params" constraintName="job_exec_params_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="job_execution_id" referencedTableName="batch_job_execution" validate="true"/>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-25">
+    <changeSet author="wagner.wutzke" id="1740266386086-25">
         <addForeignKeyConstraint baseColumnNames="job_execution_id" baseTableName="batch_step_execution" constraintName="job_exec_step_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="job_execution_id" referencedTableName="batch_job_execution" validate="true"/>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-26">
+    <changeSet author="wagner.wutzke" id="1740266386086-26">
         <addForeignKeyConstraint baseColumnNames="job_instance_id" baseTableName="batch_job_execution" constraintName="job_inst_exec_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="job_instance_id" referencedTableName="batch_job_instance" validate="true"/>
     </changeSet>
-    <changeSet author="wagner.wutzke" id="1740060932516-27">
+    <changeSet author="wagner.wutzke" id="1740266386086-27">
         <addForeignKeyConstraint baseColumnNames="step_execution_id" baseTableName="batch_step_execution_context" constraintName="step_exec_ctx_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="step_execution_id" referencedTableName="batch_step_execution" validate="true"/>
     </changeSet>
 </databaseChangeLog>
