@@ -1,11 +1,11 @@
-name: CI
+name: Release
 
 on:
   push:
     branches:
       - main
-      - "[0-9].x"
-      - "[0-9].[0-9]+.x"
+      - '[0-9].x'
+      - '[0-9].[0-9]+.x'
 
 env:
   DOCKER_IMAGE: ghcr.io/nordeck/ovc-backend
@@ -45,7 +45,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.PACKAGE_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate Docker metadata
         if: ${{ steps.release.outputs.RELEASE_VERSION }}
@@ -71,7 +71,7 @@ jobs:
 
       - name: Docker build and push
         if: ${{ steps.release.outputs.RELEASE_VERSION }}
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         id: dockerBuild
         with:
           push: true
