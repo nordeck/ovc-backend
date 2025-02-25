@@ -1,0 +1,11 @@
+# Changelog
+
+# 1.0.0 (2025-02-25)
+
+
+### Bug Fixes
+
+* **ci:** a minor change to test the release pipeline ([c952fc4](https://github.com/nordeck/ovc-backend/commit/c952fc4cb67b3890cda38a2882528826c801e7cb))
+* **ci:** a minor change to test the release pipeline ([2bca1e0](https://github.com/nordeck/ovc-backend/commit/2bca1e04f6f3f284f602c69ad2b7f4177eebbf42))
+* **ci:** switch to PACKAGE_TOKEN as secret ([83c36d8](https://github.com/nordeck/ovc-backend/commit/83c36d82658acee9d3bac38d9685aebbf1108b02))
+* **ci:** switch to PACKAGE_TOKEN as secret ([362b01b](https://github.com/nordeck/ovc-backend/commit/362b01bf520a9aaec24691ddf3ee3954f0db2692))
