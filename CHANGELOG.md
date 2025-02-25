@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/nordeck/ovc-backend/compare/v1.0.1...v1.0.2) (2025-02-25)
+
+
+### Bug Fixes
+
+* **ci:** replace token ([e3201ba](https://github.com/nordeck/ovc-backend/commit/e3201ba905ddb617244ecbad87f7f153b4018413))
+
 ## [1.0.1](https://github.com/nordeck/ovc-backend/compare/v1.0.0...v1.0.1) (2025-02-25)
 
 
