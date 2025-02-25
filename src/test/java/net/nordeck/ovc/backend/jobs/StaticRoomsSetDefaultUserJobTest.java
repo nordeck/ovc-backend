@@ -2,6 +2,8 @@ package net.nordeck.ovc.backend.jobs;
 
 import net.nordeck.ovc.backend.TestUtils;
 import net.nordeck.ovc.backend.entity.MeetingEntity;
+import net.nordeck.ovc.backend.entity.MeetingParticipantEntity;
+import net.nordeck.ovc.backend.repository.MeetingParticipantRepository;
 import net.nordeck.ovc.backend.repository.MeetingRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,6 +49,9 @@ public class StaticRoomsSetDefaultUserJobTest {
     private MeetingRepository meetingRepository;
 
     @Autowired
+    private MeetingParticipantRepository meetingParticipantRepository;
+
+    @Autowired
     @Qualifier(StaticRoomsSetDefaultUserJob.JOB_NAME)
     private Job job;
 
@@ -67,13 +72,32 @@ public class StaticRoomsSetDefaultUserJobTest {
         MeetingEntity room1 = TestUtils.getStaticRoom();
         MeetingEntity room2 = TestUtils.getStaticRoom();
 
-        meetingRepository.saveAll(List.of(room1, room2));
+        List<List<MeetingParticipantEntity>> participants = List.of(
+                room1.getParticipants(),
+                room2.getParticipants()
+        );
+
+        room1.setParticipants(null);
+        room2.setParticipants(null);
+
+        List<MeetingEntity> meetingEntities = meetingRepository.saveAll(List.of(room1, room2));
+
+        // set  meeting id for every participant
+        for (int i=0; i<meetingEntities.size(); i++) {
+            int finalI = i;
+            participants.get(i).forEach(o -> o.setMeetingId(meetingEntities.get(finalI).getId()));
+            meetingEntities.get(i).setParticipants(participants.get(i));
+        }
+
+        meetingRepository.saveAll(meetingEntities);
+
     }
 
     @AfterEach
     public void cleanUp() {
         jobRepositoryTestUtils.removeJobExecutions();
         meetingRepository.deleteAll();
+        meetingParticipantRepository.deleteAll();
     }
 
     private JobParameters defaultJobParameters() {
