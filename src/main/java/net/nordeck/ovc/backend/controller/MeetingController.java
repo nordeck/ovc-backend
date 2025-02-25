@@ -124,7 +124,7 @@ public class MeetingController
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ApiErrorDTO.class)))
     })
-    @PreAuthorize("hasAuthority('default-roles-vk-bund')")
+    @PreAuthorize("@rolesAuthorization.hasBasicAccessRole")
     public ResponseEntity<MeetingsPageDTO> findMeetings(
             @Parameter(description = "The type of meeting to be retrieved: 'normal', 'static', 'instant'")
             @RequestParam(defaultValue = "normal", required = false) String type,
@@ -193,7 +193,7 @@ public class MeetingController
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ApiErrorDTO.class)))
     })
-    @PreAuthorize("hasAuthority('default-roles-vk-bund')")
+    @PreAuthorize("@rolesAuthorization.hasBasicAccessRole")
     public ResponseEntity<MeetingDTO> findById(
             @Parameter(description = "Id of the meeting.", required = true)
             @PathVariable UUID mId)
@@ -346,7 +346,7 @@ public class MeetingController
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ApiErrorDTO.class)))
     })
-    @PreAuthorize("hasAuthority('default-roles-vk-bund')")
+    @PreAuthorize("@rolesAuthorization.hasBasicAccessRole")
     public ResponseEntity<MeetingDTO> createMeeting(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "The meeting to be created")
             @RequestBody MeetingCreateDTO meeting)
@@ -389,7 +389,7 @@ public class MeetingController
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ApiErrorDTO.class)))
     })
-    @PreAuthorize("hasAuthority('default-roles-vk-bund')")
+    @PreAuthorize("@rolesAuthorization.hasBasicAccessRole")
     public ResponseEntity<MeetingDTO> updateMeeting(
             @Parameter(description = "Id of the meeting to be updated.", required = true)
             @PathVariable UUID mId,
@@ -550,7 +550,7 @@ public class MeetingController
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ApiErrorDTO.class)))
     })
-    @PreAuthorize("hasAuthority('default-roles-vk-bund')")
+    @PreAuthorize("@rolesAuthorization.hasBasicAccessRole")
     public ResponseEntity<List<MeetingParticipantDTO>> listParticipants(
             @Parameter(description = "Id of the meeting to get the participants list.", required = true)
             @PathVariable UUID mId)
@@ -591,7 +591,7 @@ public class MeetingController
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ApiErrorDTO.class)))
     })
-    @PreAuthorize("hasAuthority('default-roles-vk-bund')")
+    @PreAuthorize("@rolesAuthorization.hasBasicAccessRole")
     public ResponseEntity<MeetingParticipantDTO> createParticipant(
             @Parameter(description = "Id of the meeting.", required = true)
             @PathVariable UUID mId,
@@ -634,7 +634,7 @@ public class MeetingController
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ApiErrorDTO.class)))
     })
-    @PreAuthorize("hasAuthority('default-roles-vk-bund')")
+    @PreAuthorize("@rolesAuthorization.hasBasicAccessRole")
     public ResponseEntity<MeetingParticipantDTO> updateParticipant(
             @Parameter(description = "Id of the meeting.", required = true)
             @PathVariable UUID mId,
@@ -677,7 +677,7 @@ public class MeetingController
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ApiErrorDTO.class)))
     })
-    @PreAuthorize("hasAuthority('default-roles-vk-bund')")
+    @PreAuthorize("@rolesAuthorization.hasBasicAccessRole")
     public ResponseEntity<Void> deleteParticipant(
             @Parameter(description = "Id of the meeting.", required = true)
             @PathVariable UUID mId,
@@ -716,7 +716,7 @@ public class MeetingController
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ApiErrorDTO.class)))
     })
-    @PreAuthorize("hasAuthority('default-roles-vk-bund')")
+    @PreAuthorize("@rolesAuthorization.hasBasicAccessRole")
     public boolean isRegisteredUser(
             @Parameter(description = "Id (email) of the user to be checked.", required = true)
             @PathVariable String userId)
