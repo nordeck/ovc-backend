@@ -2,6 +2,7 @@ package net.nordeck.ovc.backend.jobs;
 
 import net.nordeck.ovc.backend.TestUtils;
 import net.nordeck.ovc.backend.entity.MeetingEntity;
+import net.nordeck.ovc.backend.repository.MeetingParticipantRepository;
 import net.nordeck.ovc.backend.repository.MeetingRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,6 +49,9 @@ public class DeleteOldMeetingsJobTest {
     @Autowired
     private MeetingRepository meetingRepository;
 
+    @Autowired
+    private MeetingParticipantRepository meetingParticipantRepository;
+
     @Mock
     private JobRepository jobRepository;
 
@@ -90,6 +94,7 @@ public class DeleteOldMeetingsJobTest {
     public void cleanUp() {
         jobRepositoryTestUtils.removeJobExecutions();
         meetingRepository.deleteAll();
+        meetingParticipantRepository.deleteAll();
     }
 
     private JobParameters defaultJobParameters() {
