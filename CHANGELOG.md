@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/nordeck/ovc-backend/compare/v1.0.0...v1.0.1) (2025-02-25)
+
+
+### Bug Fixes
+
+* **ci:** trim whitespace ([2749840](https://github.com/nordeck/ovc-backend/commit/274984009c27159cac16cd586fc3b7663110072f))
+
 # 1.0.0 (2025-02-25)
 
 
