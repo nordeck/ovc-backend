@@ -36,7 +36,7 @@ jobs:
       - name: Release
         id: release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PACKAGE_TOKEN }}
         run: npx semantic-release
 
       - name: Login to ghcr.io
@@ -45,7 +45,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.PACKAGE_TOKEN }}
 
       - name: Generate Docker metadata
         if: ${{ steps.release.outputs.RELEASE_VERSION }}
