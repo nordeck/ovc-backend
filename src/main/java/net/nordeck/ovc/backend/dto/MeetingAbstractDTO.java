@@ -80,11 +80,6 @@ public class MeetingAbstractDTO
     @JsonProperty("lobby_enabled")
     private boolean lobbyEnabled;
 
-    @Schema(description = "Whether this meeting has been started." +
-            "Relevant for instant meetings.")
-    @JsonProperty("started")
-    private boolean started;
-
     @Schema(description = "The time UTC datetime in ISO-8601 format the meeting has been started. " +
             "Needs to be converted by the client with its own zone offset. " +
             "Relevant for INSTANT meeting.")

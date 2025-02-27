@@ -147,9 +147,6 @@ public class MeetingEntity {
     @Column(name = "excluded")
     private boolean excluded;
 
-    @Column(name = "started")
-    private boolean started;
-
     @Column(name = "started_at")
     private ZonedDateTime startedAt;
 
@@ -176,7 +173,6 @@ public class MeetingEntity {
                 .frequency(frequency)
                 .password(dto.getPassword())
                 .lobbyEnabled(dto.isLobbyEnabled())
-                .started(dto.isStarted())
                 .startedAt(dto.getStartedAt())
                 .build();
 
