@@ -1,9 +1,9 @@
 package net.nordeck.ovc.backend.service;
 
+import net.nordeck.ovc.backend.TestUtils;
 import net.nordeck.ovc.backend.dto.DTOUtils;
 import net.nordeck.ovc.backend.dto.MapperJibriResponseDTO;
 import net.nordeck.ovc.backend.dto.MapperJigasiResponseDTO;
-import net.nordeck.ovc.backend.TestUtils;
 import net.nordeck.ovc.backend.entity.MeetingEntity;
 import net.nordeck.ovc.backend.repository.MeetingRepository;
 import org.junit.jupiter.api.BeforeEach;

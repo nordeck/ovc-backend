@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.slf4j.Logger;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.Authentication;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -33,12 +32,9 @@ public class AppLoggerTest
     public static final String MESSAGE = "MESSAGE";
     public static final String QUERY_STRING = "QUERY_STRING";
     public static final String URI = "http://localhost:8080/";
-    public static final String AUTH_USER = "AUTH_USER";
+    public static final String AUTH_USER = "walter.white@gmail.com";
     public static final String INFO_MESSAGE = "INFO_MESSAGE";
     public static final String BODY_TEXT = "{ \"body\":\"text\" }";
-
-    @Mock
-    private Authentication auth;
 
     @Mock
     private Logger logger;
@@ -84,13 +80,16 @@ public class AppLoggerTest
     @BeforeAll
     static void beforeAll()
     {
+        TestUtils.initSecurityContext(null, null);
         utilities = mockStatic(RequestContextHolder.class);
     }
+
+
 
     @BeforeEach
     void beforeEach()
     {
-        utilities.when(() -> RequestContextHolder.getRequestAttributes()).thenReturn(requestAttributes);
+        utilities.when(RequestContextHolder::getRequestAttributes).thenReturn(requestAttributes);
         when(requestAttributes.getRequest()).thenReturn(request);
         when(request.getRequestURI()).thenReturn(URI);
         when(request.getQueryString()).thenReturn(QUERY_STRING);
@@ -101,7 +100,6 @@ public class AppLoggerTest
     @Test
     void logGetRequestWithMessageOnly()
     {
-        TestUtils.initSecurityContext(auth, AUTH_USER);
         appLogger.logRequest(MESSAGE);
 
         verify(logger, times(1)).info(
@@ -123,7 +121,6 @@ public class AppLoggerTest
     @Test
     void logPostRequestWithMessageOnly() throws IOException
     {
-        TestUtils.initSecurityContext(auth, AUTH_USER);
         when(request.getMethod()).thenReturn(POST);
         ServletInputStream sis = new CachedBodyServletInputStream(BODY_TEXT.getBytes(StandardCharsets.UTF_8));
         when(request.getInputStream()).thenReturn(sis);
@@ -149,7 +146,6 @@ public class AppLoggerTest
     @Test
     void logGetRequestErrorWithInfoMessage()
     {
-        TestUtils.initSecurityContext(auth, AUTH_USER);
         UUID id = UUID.randomUUID();
         appLogger.logRequestError(id, MESSAGE, INFO_MESSAGE);
 
@@ -173,7 +169,6 @@ public class AppLoggerTest
     @Test
     void logGetRequestErrorWithException()
     {
-        TestUtils.initSecurityContext(auth, AUTH_USER);
         UUID id = UUID.randomUUID();
         appLogger.logRequestError(id, MESSAGE, new RuntimeException("exception message"));
 

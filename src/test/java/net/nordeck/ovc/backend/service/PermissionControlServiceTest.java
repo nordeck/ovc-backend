@@ -1,8 +1,8 @@
 package net.nordeck.ovc.backend.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import net.nordeck.ovc.backend.dto.MeetingPermissionsDTO;
 import net.nordeck.ovc.backend.TestUtils;
+import net.nordeck.ovc.backend.dto.MeetingPermissionsDTO;
 import net.nordeck.ovc.backend.entity.MeetingEntity;
 import net.nordeck.ovc.backend.entity.NotificationEntity;
 import net.nordeck.ovc.backend.repository.MeetingRepository;

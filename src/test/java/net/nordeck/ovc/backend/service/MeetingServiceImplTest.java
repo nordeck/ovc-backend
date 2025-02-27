@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static net.nordeck.ovc.backend.dto.RecurrenceFrequency.DAILY;
 import static net.nordeck.ovc.backend.Constants.NO_MEETING_FOUND_FOR_ID;
+import static net.nordeck.ovc.backend.dto.RecurrenceFrequency.DAILY;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -50,8 +50,7 @@ public class MeetingServiceImplTest
     @Mock
     KeycloakClientService keycloakClientService;
 
-    @Mock
-    private Authentication auth;
+    private Authentication auth = TestUtils.initSecurityContext(null, null);
 
     @InjectMocks
     MeetingServiceImpl meetingService;
@@ -78,8 +77,6 @@ public class MeetingServiceImplTest
     @Test
     void getMeetings_normal_success()
     {
-        TestUtils.initSecurityContext(auth,null);
-
         ZonedDateTime startDateTime = ZonedDateTime.now();
         ZonedDateTime endDateTime = startDateTime.plusWeeks(4);
         MeetingEntity entity1 = TestUtils.getMeetingEntity();
@@ -96,8 +93,6 @@ public class MeetingServiceImplTest
     @Test
     void getMeetings_static_success()
     {
-        TestUtils.initSecurityContext(auth,null);
-
         ZonedDateTime startDateTime = ZonedDateTime.now();
         ZonedDateTime endDateTime = startDateTime.plusWeeks(4);
         MeetingEntity entity1 = TestUtils.getMeetingEntity();
@@ -116,8 +111,6 @@ public class MeetingServiceImplTest
     @Test
     void getMeetings_instant_success()
     {
-        TestUtils.initSecurityContext(auth,null);
-
         ZonedDateTime startDateTime = ZonedDateTime.now();
         ZonedDateTime endDateTime = startDateTime.plusWeeks(4);
         MeetingEntity entity1 = TestUtils.getMeetingEntity();
@@ -135,7 +128,6 @@ public class MeetingServiceImplTest
     @Test
     void given_single_create_success()
     {
-        TestUtils.initSecurityContext(auth,null);
         MeetingCreateDTO dto = TestUtils.getMeetingCreateDTO(false, 0);
         MeetingEntity entity = MeetingEntity.buildFromMeetingAbstractDTO(dto);
 
@@ -152,7 +144,6 @@ public class MeetingServiceImplTest
     @Test
     void given_recurrent_custom_create_success()
     {
-        TestUtils.initSecurityContext(auth,null);
         MeetingCreateDTO dto = TestUtils.getMeetingCreateDTO(true, 5);
         MeetingEntity entity = MeetingEntity.buildFromMeetingAbstractDTO(dto);
         MeetingEntity c1 = TestUtils.getMeetingEntity();
@@ -174,7 +165,6 @@ public class MeetingServiceImplTest
     @Test
     void given_recurrent_daily_create_success()
     {
-        TestUtils.initSecurityContext(auth,null);
         MeetingCreateDTO dto = TestUtils.getMeetingCreateDTO(true, 3);
         dto.getRecurrence().setWeekDays(new WeekDays());
         dto.getRecurrence().setFrequency(DAILY);
@@ -619,7 +609,6 @@ public class MeetingServiceImplTest
     @Test
     void getUniqueConferencePin_success()
     {
-        TestUtils.initSecurityContext(auth,null);
         MeetingCreateDTO dto = TestUtils.getMeetingCreateDTO(false, 0);
 
         MeetingParticipantEntity participantEntity = TestUtils.getMeetingParticipantEntity();
@@ -660,7 +649,6 @@ public class MeetingServiceImplTest
 
     @Test
     void getUniqueConferencePin_rngAccident() {
-        TestUtils.initSecurityContext(auth,null);
         MeetingCreateDTO dto = TestUtils.getMeetingCreateDTO(false, 0);
 
         MeetingParticipantEntity participantEntity = TestUtils.getMeetingParticipantEntity();

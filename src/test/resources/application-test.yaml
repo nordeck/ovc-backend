@@ -25,7 +25,6 @@ spring:
     password:
     change-log: 'classpath:liquibase/changelog-master.xml'
 
-
 # web security (api rest endpoints) configurations
 web:
   security:
@@ -38,16 +37,14 @@ web:
     secret: ''
     enabled: false
 
-
 # jitsi token encryption configuration
 jitsi:
   domain:
-  jwt:
-    secret:
-    expiration-in-minutes: 60
-    expiration-for-rooms-in-minutes: 180
-    not-before-in-minutes: 30
-
+    jwt:
+      secret:
+      expiration-in-minutes: 60
+      expiration-for-rooms-in-minutes: 180
+      not-before-in-minutes: 30
 
 # scheduled jobs configuration
 jobs:
@@ -99,3 +96,4 @@ api:
   default-page-size: 20
   default-weeks-before: 4
   default-weeks-after: 4
+  basic-access-role: 'ovc-client-role'

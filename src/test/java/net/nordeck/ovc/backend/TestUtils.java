@@ -5,19 +5,18 @@ import net.nordeck.ovc.backend.entity.MeetingEntity;
 import net.nordeck.ovc.backend.entity.MeetingParticipantEntity;
 import net.nordeck.ovc.backend.entity.NotificationEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static net.nordeck.ovc.backend.service.NotificationService.DELETE_CANDIDATE;
-import static org.mockito.Mockito.when;
 
 
 public class TestUtils
@@ -187,7 +186,7 @@ public class TestUtils
         return NotificationDTO.buildFromEntity(getNotificationEntity());
     }
 
-    public static void initSecurityContext(Authentication auth, String email)
+    public static Authentication initSecurityContext(String email, List<String> roles)
     {
         Map<String, Object> claims = new HashMap<>();
         if (email == null)
@@ -203,8 +202,19 @@ public class TestUtils
         HashMap<String, Object> headers = new HashMap<>();
         headers.put("auth", "Bearer");
         Jwt token = new Jwt("123456", Instant.now(), expiresAt, headers, claims);
-        when(auth.getPrincipal()).thenReturn(token);
+
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        if (roles != null)
+        {
+            for(String role : roles)
+            {
+                authorities.add(new SimpleGrantedAuthority(role));
+            }
+        }
+        JwtAuthenticationToken auth = new JwtAuthenticationToken(token, authorities, "auth-token");
         SecurityContextHolder.getContext().setAuthentication(auth);
+        auth.setAuthenticated(true);
+        return auth;
     }
 
 }

@@ -1,14 +1,12 @@
 package net.nordeck.ovc.backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.nordeck.ovc.backend.TestUtils;
 import net.nordeck.ovc.backend.dto.NotificationDTO;
 import net.nordeck.ovc.backend.dto.NotificationsPageDTO;
-import net.nordeck.ovc.backend.TestUtils;
 import net.nordeck.ovc.backend.service.NotificationService;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,14 +40,7 @@ public class NotificationControllerTest
     @MockBean
     NotificationService service;
 
-    @Mock
-    private Authentication auth;
-
-    @BeforeEach
-    void initBeforeEach()
-    {
-        TestUtils.initSecurityContext(auth, null);
-    }
+    Authentication auth = TestUtils.initSecurityContext(null, null);
 
     @AfterEach
     void finishAfterEach()

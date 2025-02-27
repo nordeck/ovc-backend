@@ -93,7 +93,7 @@ public class NotificationController
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ApiErrorDTO.class)))
     })
-    @PreAuthorize("hasAuthority('default-roles-vk-bund')")
+    @PreAuthorize("@rolesAuthorization.hasBasicAccessRole")
     public ResponseEntity<NotificationsPageDTO> findForUser(
             @Parameter(description = "The amount of items to return. Default value is 20.")
             @RequestParam(required = false, defaultValue = "20") Integer pageSize,
@@ -138,7 +138,7 @@ public class NotificationController
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ApiErrorDTO.class)))
     })
-    @PreAuthorize("hasAuthority('default-roles-vk-bund')")
+    @PreAuthorize("@rolesAuthorization.hasBasicAccessRole")
     public ResponseEntity<Void> delete(
             @Parameter(description = "Id of the to be deleted.", required = true)
             @PathVariable UUID id)
@@ -167,7 +167,7 @@ public class NotificationController
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ApiErrorDTO.class)))
     })
-    @PreAuthorize("hasAuthority('default-roles-vk-bund')")
+    @PreAuthorize("@rolesAuthorization.hasBasicAccessRole")
     public ResponseEntity<Void> deleteAll()
     {
         Void delete = service.deleteAllForUser();
@@ -206,7 +206,7 @@ public class NotificationController
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ApiErrorDTO.class))),
     })
-    @PreAuthorize("hasAuthority('default-roles-vk-bund')")
+    @PreAuthorize("@rolesAuthorization.hasBasicAccessRole")
     public ResponseEntity<Void> updateView(
             @Parameter(description = "Id of the notification to be updated.", required = true)
             @PathVariable UUID id)
@@ -237,7 +237,7 @@ public class NotificationController
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ApiErrorDTO.class))),
     })
-    @PreAuthorize("hasAuthority('default-roles-vk-bund')")
+    @PreAuthorize("@rolesAuthorization.hasBasicAccessRole")
     public ResponseEntity<Void> updateViewAll()
     {
         logger.logRequest("Endpoint 'updateViewAll' called.");

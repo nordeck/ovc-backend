@@ -1,8 +1,8 @@
 package net.nordeck.ovc.backend.service;
 
+import net.nordeck.ovc.backend.TestUtils;
 import net.nordeck.ovc.backend.dto.MeetingParticipantDTO;
 import net.nordeck.ovc.backend.dto.MeetingParticipantRequestDTO;
-import net.nordeck.ovc.backend.TestUtils;
 import net.nordeck.ovc.backend.entity.MeetingEntity;
 import net.nordeck.ovc.backend.entity.MeetingParticipantEntity;
 import net.nordeck.ovc.backend.repository.MeetingParticipantRepository;
@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static net.nordeck.ovc.backend.dto.Role.ORGANIZER;
 import static net.nordeck.ovc.backend.TestUtils.OWNER_EMAIL;
+import static net.nordeck.ovc.backend.dto.Role.ORGANIZER;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
