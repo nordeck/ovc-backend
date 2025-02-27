@@ -594,6 +594,7 @@ public class MeetingServiceImpl implements MeetingService
         existing.setName(newDTO.getName());
         existing.setLobbyEnabled(newDTO.isLobbyEnabled());
         existing.setUpdatedAt(ZonedDateTime.now());
+        existing.setStartedAt(newDTO.getStartedAt());
 
         // update recurrence data only for parent meeting, for children, we need to recreate them
         if (existing.isRecurrentParent())
