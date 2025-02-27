@@ -14,7 +14,7 @@ import java.util.Collection;
 public class RolesAuthorization
 {
 
-    @Value("${api.basic-access-role}")
+    @Value("${api.basic-access-role:}")
     @Getter
     protected String basicAccessRole;
 
