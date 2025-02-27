@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/nordeck/ovc-backend/compare/v1.1.0...v1.1.1) (2025-02-27)
+
+
+### Bug Fixes
+
+* update default value for basic-access-role ([1d4da2a](https://github.com/nordeck/ovc-backend/commit/1d4da2ae479edc3f581727453d1dcc67043247ec))
+
 # [1.1.0](https://github.com/nordeck/ovc-backend/compare/v1.0.3...v1.1.0) (2025-02-27)
 
 
