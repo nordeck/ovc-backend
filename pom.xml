@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.nordeck</groupId>
   <artifactId>ovc-backend</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.3</version>
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
