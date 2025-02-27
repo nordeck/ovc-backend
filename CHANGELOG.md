@@ -1,5 +1,19 @@
 # Changelog
 
+# [1.1.0](https://github.com/nordeck/ovc-backend/compare/v1.0.3...v1.1.0) (2025-02-27)
+
+
+### Bug Fixes
+
+* changesets create index andf fks only for postgres ([7c116f5](https://github.com/nordeck/ovc-backend/commit/7c116f583d9266b33049daa7bc95a55f38142890))
+* configurable default access role component added ([89ac961](https://github.com/nordeck/ovc-backend/commit/89ac961a79cbf4ed3b2127bf98aa82dd966f91ba))
+
+
+### Features
+
+* added started and started_ad columns to meeting ([7ce7597](https://github.com/nordeck/ovc-backend/commit/7ce7597202b7264ce56da87e0e48d3d5653024ed))
+* ZO-191 - UUID and PIN should be different for each meeting ([6cdc316](https://github.com/nordeck/ovc-backend/commit/6cdc3166abdbb78f9a8cc31a8df655217210193b))
+
 ## [1.0.3](https://github.com/nordeck/ovc-backend/compare/v1.0.2...v1.0.3) (2025-02-25)
 
 
