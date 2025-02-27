@@ -2,14 +2,15 @@ package net.nordeck.ovc.backend.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
+import net.nordeck.ovc.backend.TestUtils;
 import net.nordeck.ovc.backend.dto.NotificationDTO;
 import net.nordeck.ovc.backend.dto.NotificationsPageDTO;
 import net.nordeck.ovc.backend.dto.Role;
-import net.nordeck.ovc.backend.TestUtils;
 import net.nordeck.ovc.backend.entity.MeetingEntity;
 import net.nordeck.ovc.backend.entity.MeetingParticipantEntity;
 import net.nordeck.ovc.backend.entity.NotificationEntity;
 import net.nordeck.ovc.backend.repository.NotificationRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +20,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -42,11 +42,14 @@ public class NotificationServiceImplTest
     @Mock
     private ObjectMapper objectMapper;
 
-    @Mock
-    private Authentication auth;
-
     @InjectMocks
     private NotificationServiceImpl service;
+
+    @BeforeAll
+    static void beforeAll()
+    {
+        TestUtils.initSecurityContext(null, null);
+    }
 
     @BeforeEach
     void setup()
@@ -75,8 +78,6 @@ public class NotificationServiceImplTest
     @Test
     void findAllForUser()
     {
-        TestUtils.initSecurityContext(auth,null);
-
         NotificationEntity e1 = TestUtils.getNotificationEntity();
         NotificationEntity e2 = TestUtils.getNotificationEntity();
         Page<NotificationEntity> entitiesPage = new PageImpl<>(List.of(e1, e2));
@@ -100,7 +101,7 @@ public class NotificationServiceImplTest
     @Test
     void testDeleteAllForUser()
     {
-        TestUtils.initSecurityContext(auth,"user@mail.com");
+        TestUtils.initSecurityContext("user@mail.com", null);
         service.deleteAllForUser();
         verify(repository, times(1)).deleteAllByUserId("user@mail.com");
     }
@@ -179,7 +180,6 @@ public class NotificationServiceImplTest
     @Test
     void updateViewAll()
     {
-        TestUtils.initSecurityContext(auth, null);
         NotificationEntity notification = TestUtils.getNotificationEntity();
         when(repository.findAllByUserId(any())).thenReturn(List.of(notification));
 

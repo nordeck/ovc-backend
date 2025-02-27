@@ -10,7 +10,6 @@ import net.nordeck.ovc.backend.service.PermissionControlService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -59,9 +58,7 @@ public class MeetingControllerTest
     private MeetingParticipantRequestDTO participantRequestDTO;
     private String json, jsonResponse;
 
-
-    @Mock
-    private Authentication auth;
+    private Authentication auth = TestUtils.initSecurityContext(null, null);;
 
     @BeforeEach
     void initData() throws IOException
@@ -72,8 +69,6 @@ public class MeetingControllerTest
 
         json = objectMapper.writeValueAsString(participantRequestDTO);
         jsonResponse = objectMapper.writeValueAsString(participantDTO);
-
-        TestUtils.initSecurityContext(auth, null);
     }
 
     @AfterEach

@@ -1,9 +1,9 @@
 package net.nordeck.ovc.backend.entity;
 
+import net.nordeck.ovc.backend.TestUtils;
 import net.nordeck.ovc.backend.dto.MeetingAbstractDTO;
 import net.nordeck.ovc.backend.dto.RecurrenceFrequency;
 import net.nordeck.ovc.backend.dto.WeekDays;
-import net.nordeck.ovc.backend.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
