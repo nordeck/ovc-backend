@@ -5,25 +5,10 @@
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
-    [
-      "@semantic-release/changelog",
-      {
-        "changelogFile": "CHANGELOG.md",
-        "changelogTitle": "# Changelog"
-      }
-    ],
     ["@semantic-release/exec", {
       "prepareCmd": "yq --inplace -p=xml -o=xml '.project += { \"version\" : \"${nextRelease.version}\" }' pom.xml ",
       "publishCmd": "echo RELEASE_VERSION=${nextRelease.version} >> $GITHUB_OUTPUT"
     }],
-    [
-      "@semantic-release/git",
-      {
-        "assets": ["CHANGELOG.md", "pom.xml"],
-        "message":
-          "chore(release): ${nextRelease.version} \n\n${nextRelease.notes}"
-      }
-    ],
     [
       "@semantic-release/github",
       {
