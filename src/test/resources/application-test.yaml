@@ -81,6 +81,12 @@ jobs:
     age-in-days: 30
     chunkSize: 200
 
+  instant-meeting-delete-old: # deletes instant meeting records
+    enabled: true
+    cron: '0 */1 * * * *'
+    age-in-days-started: 10
+    chunkSize: 200
+
 portal:
   domain: https://localhost:3000
   meeting-join-path: /meetings/meeting/join/
