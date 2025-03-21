@@ -123,6 +123,13 @@ jobs:
     age-in-days: 30                 # max amount of days a notification can exist after being created
     chunkSize: 200                  # amount of records to be handled per batch
 
+  instant-started-delete-old:       # deletes instant meeting records
+    enabled: false                   # enable / disable the job
+    cron: '0 30 2 * * *'            # job scheduling cron expression
+    age-in-days-started: 10         # amount of days an instant meeting can exist after being started
+    age-in-days-not-started: 1      # amount of days an instant meeting can exist after being created but not started
+    chunkSize: 200                  # amount of records to be handled per batch
+
 
 
 # swagger configurations

@@ -32,8 +32,6 @@ import java.util.UUID;
 @Repository
 public interface MeetingRepository extends JpaRepository<MeetingEntity, UUID> {
 
-    List<MeetingEntity> findByParentIdOrderByEndTimeAsc(UUID parentId);
-
     List<MeetingEntity> findByParentIdAndExcludedFalseOrderByEndTimeAsc(UUID parentId);
 
     @Deprecated
@@ -67,9 +65,6 @@ public interface MeetingRepository extends JpaRepository<MeetingEntity, UUID> {
             "m.excluded = false AND " +
             "UPPER(p.email) = UPPER(:userId)")
     Page<MeetingEntity> findAllInstantMeetings(String userId, Pageable pageable);
-
-    @Transactional
-    void deleteAllByParentId(UUID parentId);
 
 
 
@@ -112,6 +107,7 @@ public interface MeetingRepository extends JpaRepository<MeetingEntity, UUID> {
 
 
     List<MeetingEntity> findByConferencePin(String conferencePin);
+
     boolean existsByConferencePin(String conferencePin);
 
     List<MeetingEntity> findAllByEndTimeBeforeAndStaticRoomIsFalse(ZonedDateTime dateTimeBefore, Limit limit);
@@ -119,5 +115,11 @@ public interface MeetingRepository extends JpaRepository<MeetingEntity, UUID> {
     List<MeetingEntity> findAllByParentId(UUID parentId);
 
     List<MeetingEntity> findAllByParentIdAndExcludedIsFalse(UUID parentId);
+
+    // find not started instant meetings
+    List<MeetingEntity> findAllByStartTimeIsNullAndStartedAtIsNull(Limit limit);
+
+    // find started instant meetings
+    List<MeetingEntity> findAllByStartTimeIsNullAndStartedAtBefore(ZonedDateTime dateTimeBefore, Limit limit);
 
 }
