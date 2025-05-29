@@ -3,18 +3,18 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.nordeck</groupId>
   <artifactId>ovc-backend</artifactId>
-  <version>1.1.1</version>
+  <version>1.2.1</version>
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.3.5</version>
+    <version>3.3.11</version>
   </parent>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>17</java.version>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
-    <springboot.version>3.3.5</springboot.version>
+    <springboot.version>3.3.11</springboot.version>
     <springdoc-openapi.version>2.1.0</springdoc-openapi.version>
     <jackson.version>2.16.2</jackson.version>
     <postgres.version>42.7.2</postgres.version>
@@ -36,15 +36,34 @@
     <jsonassert.version>1.5.1</jsonassert.version>
     <json-path-assert.version>2.9.0</json-path-assert.version>
     <jsonwebtoken.version>0.12.5</jsonwebtoken.version>
-    <keycloak.version>24.0.7</keycloak.version>
-    <keycloak-admin-client.version>24.0.5</keycloak-admin-client.version>
+    <keycloak-admin-client.version>24.0.11.redhat-00001</keycloak-admin-client.version>
     <lombok.version>1.18.30</lombok.version>
     <shedlock.version>5.10.1</shedlock.version>
-    <apache-mime4j.version>0.8.11</apache-mime4j.version>
+    <apache-mime4j.version>0.8.12</apache-mime4j.version>
     <nimbus-jose-jwt.version>9.37.3</nimbus-jose-jwt.version>
-    <spring-boot-data-jpa.version>3.2.5</spring-boot-data-jpa.version>
+    <spring-boot-data-jpa.version>3.2.12</spring-boot-data-jpa.version>
     <logstash-logback-encoder.version>7.4</logstash-logback-encoder.version>
   </properties>
+  <repositories>
+    <repository>
+      <id>central</id>
+      <name>Maven Central</name>
+      <url>https://repo.maven.apache.org/maven2</url>
+      <!-- Make this the default for most artifacts -->
+    </repository>
+    <repository>
+      <id>redhat-ga</id>
+      <name>Red Hat GA Repository</name>
+      <url>https://maven.repository.redhat.com/ga/</url>
+      <!-- Restrict this repository to only be used when needed -->
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>

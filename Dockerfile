@@ -1,4 +1,4 @@
-FROM bellsoft/liberica-openjdk-alpine-musl:17 as builder
+FROM bellsoft/liberica-openjdk-alpine-musl:17 AS builder
 WORKDIR /app
 
 #resolve deps
