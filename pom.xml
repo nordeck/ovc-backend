@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.nordeck</groupId>
   <artifactId>ovc-backend</artifactId>
-  <version>1.1.1</version>
+  <version>1.1.2</version>
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.3.5</version>
+    <version>3.5.13</version>
   </parent>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,7 +26,7 @@
     <servlet-api.version>2.5</servlet-api.version>
     <javax.persistence-api.version>2.2</javax.persistence-api.version>
     <validation-api.version>2.0.1.Final</validation-api.version>
-    <liquibase.version>4.25.1</liquibase.version>
+    <liquibase.version>4.31.1</liquibase.version>
     <hibernate-core.version>6.4.8.Final</hibernate-core.version>
     <hamcrest.version>2.2</hamcrest.version>
     <jakarta.annotation-api.version>2.1.1</jakarta.annotation-api.version>
@@ -37,14 +37,30 @@
     <json-path-assert.version>2.9.0</json-path-assert.version>
     <jsonwebtoken.version>0.12.5</jsonwebtoken.version>
     <keycloak.version>24.0.7</keycloak.version>
-    <keycloak-admin-client.version>24.0.5</keycloak-admin-client.version>
+    <keycloak-admin-client.version>26.0.8</keycloak-admin-client.version>
     <lombok.version>1.18.30</lombok.version>
     <shedlock.version>5.10.1</shedlock.version>
-    <apache-mime4j.version>0.8.11</apache-mime4j.version>
+    <apache-mime4j.version>0.8.13</apache-mime4j.version>
     <nimbus-jose-jwt.version>9.37.3</nimbus-jose-jwt.version>
     <spring-boot-data-jpa.version>3.2.5</spring-boot-data-jpa.version>
     <logstash-logback-encoder.version>7.4</logstash-logback-encoder.version>
   </properties>
+  <dependencyManagement>
+    <dependencies>
+      <!-- swagger-ui 5.32.0 that comes from springdoc-openapi 2.8.16 has CVE-2026-0540, CVE-2025-15599. Remove this after springdoc update-->
+      <dependency>
+        <groupId>org.webjars</groupId>
+        <artifactId>swagger-ui</artifactId>
+        <version>5.32.1</version>
+      </dependency>
+      <!--   CVE-2025-48924 found in 3.17.0, springdoc-openapi and liquibase-core uses it  -->
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.20.0</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -74,7 +90,7 @@
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-      <version>2.3.0</version>
+      <version>2.8.16</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -325,7 +341,9 @@
           </excludes>
         </configuration>
       </plugin>
+      <!--  Adds LICENCE into the META-INF -->
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
         <executions>
           <execution>
@@ -348,7 +366,7 @@
             </configuration>
           </execution>
         </executions>
-      </plugin><!--  Adds LICENCE into the META-INF -->
+      </plugin>
     </plugins>
   </build>
 </project>
