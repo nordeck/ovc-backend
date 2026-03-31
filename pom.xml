@@ -16,7 +16,6 @@
     <maven.compiler.target>17</maven.compiler.target>
     <springboot.version>3.3.5</springboot.version>
     <springdoc-openapi.version>2.1.0</springdoc-openapi.version>
-    <jackson.version>2.16.2</jackson.version>
     <postgres.version>42.7.2</postgres.version>
     <antlr4-runtime.version>4.13.1</antlr4-runtime.version>
     <maven-surefire-plugin.version>3.2.2</maven-surefire-plugin.version>
