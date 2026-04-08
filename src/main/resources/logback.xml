@@ -36,7 +36,7 @@
                     <fieldName>message</fieldName>
                 </message>
                 <arguments>
-                    <includeNonStructuredArguments>true</includeNonStructuredArguments>
+                    <includeNonStructuredArguments>false</includeNonStructuredArguments>
                 </arguments>
                 <throwableClassName>
                     <fieldName>exception_class</fieldName>
